@@ -18,9 +18,15 @@ class BlogController extends Controller
      */
     public function index()
     {
-         $data['blogs'] = Blog::withTrashed()->get();
-        // $data['blogCategories'] = Blog::withTrashed()->get();
-        return view('admin.Blog.listData', $data);
+        
+        $data['blogs'] = Blog::join('blog_categories', 'blog_categories.id', '=', 'blogs.category_id')
+        ->select('blogs.*', 'blog_categories.name')
+        ->get();
+        // $data['blog'] = Blog::join('blog_categories' , 'blog_categories.id', '=', 'blogs.category_id')
+        // ->select('blogs.*' , "blog_categories.name")
+        // ->get();
+        
+        return view('admin.blog.listData', $data);
     }
 
     /**
@@ -31,9 +37,6 @@ class BlogController extends Controller
     public function create()
     {
         $data['blogCategories'] = BlogCategory::get();
-        //   $data['blogs'] = Blog::join('blog_categories', 'blog_categories.id', '=', 'blogs.category_id')
-        //     ->select('blogs.*', 'blog_categories.name')
-        //     ->get();
         return view('admin.blog.create', $data);
     }
 
@@ -57,13 +60,12 @@ class BlogController extends Controller
             // $obj->name = $request->name;
             // $obj->valid = $request->valid;
             // $obj->save();
-
             Blog::create([
                 'category_id' => $request->category_id,
                 'title'       => $request->title,
                 'sub_title'   => $request->sub_title,
                 'description' => $request->description,
-                'thumbnail'   => $request->thumbnail,
+                'thumbnail'   => self::fileUploader($request->thumbnail, public_path('uploads/blogThumb')),
                 'valid'       => $request->valid,
             ]);
             Toastr::success('Category created successfully', 'Success');
@@ -144,5 +146,13 @@ class BlogController extends Controller
         Blog::find($id)->delete();
         Toastr::success('Category Deleted successfully', 'Success');
         return redirect()->back();
+    }
+
+
+    public static function fileUploader($mainFile, $path)
+    {
+        $fileName = time().'.'.$mainFile->extension();
+        $mainFile->move($path, $fileName);
+        return $fileName;
     }
 }

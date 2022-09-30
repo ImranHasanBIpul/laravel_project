@@ -1,4 +1,4 @@
-@extends('admin.layouts.default')
+ @extends('admin.layouts.default')
 
 @section('title', 'Blog')
 
@@ -25,6 +25,7 @@
                 <div class="heading-elements">
                     <ul class="icons-list">
                         <li style="margin-right: 10px;"><a href="{{ route('blog.create') }}" class="btn btn-primary add-new">Add New</a></li>
+                   
                         <li><a data-action="collapse"></a></li>
                         <li><a data-action="reload"></a></li>
                         <li><a data-action="close"></a></li>
@@ -46,18 +47,22 @@
                             <th class="text-center">Actions</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                         @if (!empty($blogs))
                             @foreach ($blogs as $key => $blog)
                                 <tr>
                                     <td>{{ ++$key }}</td>
-                                    <td>{{ $blog->category_id }}</td>
+                                    <td>{{ $blog->name}}</td>
                                     <td>{{ $blog->title }}</td>
                                     <td>{{ $blog->sub_title }}</td>
-                                    {{-- <td>
+
+                                    <td>
                                         <img class="img-fluid" width="120" height="80" src="{{ asset('uploads/blogThumb/'.$blog->thumbnail) }}" alt="">
-                                    </td> --}}
+                                    </td>
+
                                     <td>{{ $blog->description }}</td>
+
                                     <td>
                                         @if ($blog->valid == 1)
                                             <span class="label label-success">Active</span>
@@ -65,6 +70,7 @@
                                             <span class="label label-danger">InActive</span>
                                         @endif
                                     </td>
+
                                     <td class="text-center">
                                         <a href="{{ route('blog.edit', $blog->id) }}"><i class="icon-pencil"></i></a>
 
@@ -73,7 +79,6 @@
                                                 @csrf
                                             <button type="submit"><i class="icon-bin"></i></button>
                                         </form>
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -90,4 +95,6 @@
         <!-- /basic datatable -->
     </div>
     <!-- /content area -->
-@endsection
+@endsection 
+
+

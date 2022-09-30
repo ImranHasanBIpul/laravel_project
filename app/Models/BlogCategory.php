@@ -10,8 +10,9 @@ class BlogCategory extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    // use SoftDeletes;
+
     protected $fillable = [
         'name', 'valid'
     ];
+    protected $data = ['delete_at'];
 }

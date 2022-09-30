@@ -32,7 +32,7 @@
             </div>
 
             <div class="panel-body">
-                <form class="form-horizontal" action="{{ route('blog.store') }}" method="POST">
+                <form class="form-horizontal" action="{{ route('blog.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <fieldset class="content-group">
                         <legend class="text-bold"></legend>
@@ -89,7 +89,6 @@
             </div>
         </div>
         <!-- /basic datatable -->
-
     </div>
     <!-- /content area -->
 @endsection

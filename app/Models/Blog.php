@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Blog extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    //use SoftDeletes;
     protected $fillable = [
         'category_id', 'title', 'sub_title', 'description', 'thumbnail',
     ];
